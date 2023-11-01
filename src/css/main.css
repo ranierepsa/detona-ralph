@@ -41,8 +41,6 @@ h1, p {
 }
 
 main {
-    /* width: 50%;
-    height: 50%; */
     display: flex;
     justify-content: center;
     padding: 3rem;
@@ -51,8 +49,18 @@ main {
 .square {
     background-color: #0006;
     border: 1px solid #6b6b6b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 6rem;
     height: 6rem;
+}
+
+.foe {
+    width: 80%;
+    height: 80%;
+    background-image: url('../images/bad-animals/snake.png');
+    background-size: cover;
 }
 
 footer {
