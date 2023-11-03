@@ -8,7 +8,12 @@ state = {
     values: {
         timeLeft: 60,
         score: 0,
-        respawnRate: 3000,
+        respawnRate: 2000,
+        lives: 3
+    },
+    startValues: {
+        timeLeft: 60,
+        score: 0,
         lives: 3
     },
     timers: {
@@ -43,23 +48,37 @@ function containsFoe(square) {
         (square.firstElementChild && square.firstElementChild.matches('.foe'));
 }
 
+function showRetryButton() {
+    document.getElementById('retry-button').style.display = 'block';
+}
+
+function hideRetryButton() {
+    document.getElementById('retry-button').style.display = 'none';
+}
+
 function checkGameOver() {
     if (state.values.timeLeft <= 0 || state.values.lives <= 0){
-        //game over;
-        //parar timers;
-        // mostrar botao de retry;
+        clearInterval(state.timers.respawn);
+        clearInterval(state.timers.timeLeft);
+        removeClickEventFromAllSquares();
+        showRetryButton();
     }
 }
 
-function increaseScore() {
-    state.values.score++;
-    state.views.score.innerHTML = state.values.score;
+function updateScore(newScore) {
+    state.values.score = newScore;
+    state.views.score.innerHTML = newScore;
 }
 
-function decreaseLives() {
-    state.values.lives--;
-    state.views.lives.innerHTML = 'x' + state.values.lives;
+function updateLives(newLives) {
+    state.values.lives = newLives;
+    state.views.lives.innerHTML = 'x' + newLives;
     checkGameOver();
+}
+
+function updateTimeLeft(newTimeLeft) {
+    state.values.timeLeft = newTimeLeft;
+    state.views.timeLeft.innerHTML = newTimeLeft;
 }
 
 function decreaseTimeLeft() {
@@ -71,11 +90,15 @@ function decreaseTimeLeft() {
 function onClickSquare(htmlElement) {
     let square = htmlElement.target;
     if (containsFoe(square)) {
-        increaseScore();
+        updateScore(state.values.score + 1);
         respawn();
     } else {
-        decreaseLives();
+        updateLives(state.values.lives - 1);
     }
+}
+
+function removeClickEventFromAllSquares() {
+    state.views.squares.forEach(htmlElement => htmlElement.removeEventListener('click', onClickSquare, htmlElement));
 }
 
 function addClickEventToAllSquares() {
@@ -95,10 +118,18 @@ function resetSpawnTimer() {
     initSpawnTimer()
 }
 
+function restoreGameValues() {
+    updateTimeLeft(state.startValues.timeLeft);
+    updateScore(state.startValues.score);
+    updateLives(state.startValues.lives);
+}
+
 function startGame() {
+    restoreGameValues()
     addClickEventToAllSquares();
     initSpawnTimer();
     initLeftTimer();
+    hideRetryButton();
     spawn();
 }
 
