@@ -17,14 +17,20 @@ state = {
     }
 }
 
-function spawn() {
-    const spawnPosition = Math.floor(Math.random() * 9);
-
-    document.getElementsByClassName('foe')[0].remove();
-
+function spawFoeAt(spawnPosition) {
     const div = document.createElement('div');
     div.className = 'foe';
     document.getElementById(spawnPosition).appendChild(div);
+}
+
+function removeFoe() {
+    document.getElementsByClassName('foe')[0].remove();
+}
+
+function spawn() {
+    const spawnPosition = Math.floor(Math.random() * 9);
+    removeFoe();
+    spawFoeAt(spawnPosition);
 }
 
 function respawn() {
