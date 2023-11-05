@@ -166,6 +166,13 @@ function playBackgroundMusic() {
     }
 }
 
+function pauseGameOverSound() {
+    if (!state.audios.gameover.paused) {
+        state.audios.gameover.pause();
+        state.audios.gameover.currentTime = 0;
+    }
+}
+
 function playBackgroundMusicWhenHoverBodyElement() {
     document.getElementsByTagName('main')[0].addEventListener('mouseover', playBackgroundMusic);
 }
@@ -177,6 +184,7 @@ function startGame() {
     initLeftTimer();
     hideRetryButton();
     spawn();
+    pauseGameOverSound();
     playBackgroundMusicWhenHoverBodyElement();
 }
 
