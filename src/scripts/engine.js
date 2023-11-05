@@ -160,9 +160,7 @@ function playBackgroundMusic() {
         state.audios.background.volume = 0.5;
         state.audios.background.currentTime = 0;
         state.audios.background.play();
-        console.log(1);
         if (!state.audios.background.paused) {
-            console.log(2);
             state.values.isBackgroundMusicPlaying = true;
         }
     }
