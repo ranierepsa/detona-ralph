@@ -9,7 +9,8 @@ state = {
         timeLeft: 60,
         score: 0,
         respawnRate: 2000,
-        lives: 3
+        lives: 3,
+        isBackgroundMusicPlaying: false
     },
     startValues: {
         timeLeft: 60,
@@ -131,13 +132,7 @@ function restoreGameValues() {
     updateTimeLeft(state.startValues.timeLeft);
     updateScore(state.startValues.score);
     updateLives(state.startValues.lives);
-}
-
-function playBackgroundMusic() {
-    state.audios.background.loop = true;
-    state.audios.background.volume = 0.5;
-    state.audios.background.currentTime = 0;
-    state.audios.background.play();
+    state.values.isBackgroundMusicPlaying = false;
 }
 
 function stopBackgroundMusic() {
@@ -159,14 +154,28 @@ function playGameOverSound() {
     state.audios.gameover.play();
 }
 
+function playBackgroundMusic() {
+    if (!state.values.isBackgroundMusicPlaying) {
+        state.audios.background.loop = true;
+        state.audios.background.volume = 0.5;
+        state.audios.background.currentTime = 0;
+        state.audios.background.play();
+        state.values.isBackgroundMusicPlaying = true;
+    }
+}
+
+function playBackgroundMusicWhenHoverBodyElement() {
+    document.getElementsByTagName('main')[0].addEventListener('mouseover', playBackgroundMusic);
+}
+
 function startGame() {
-    restoreGameValues()
+    restoreGameValues();
     addClickEventToAllSquares();
     initSpawnTimer();
     initLeftTimer();
     hideRetryButton();
     spawn();
-    playBackgroundMusic();
+    playBackgroundMusicWhenHoverBodyElement();
 }
 
 startGame();
