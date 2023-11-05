@@ -21,6 +21,7 @@ state = {
         timeLeft: null
     },
     audios: {
+        background: new Audio('./src/audios/background.wav'),
         gameover: new Audio('./src/audios/gameover.wav'),
         hit: new Audio('./src/audios/hit.wav'),
         miss: new Audio('./src/audios/miss.wav')
@@ -132,6 +133,17 @@ function restoreGameValues() {
     updateLives(state.startValues.lives);
 }
 
+function playBackgroundMusic() {
+    state.audios.background.loop = true;
+    state.audios.background.volume = 0.5;
+    state.audios.background.currentTime = 0;
+    state.audios.background.play();
+}
+
+function stopBackgroundMusic() {
+    state.audios.background.pause();
+}
+
 function playHitSound() {
     state.audios.hit.currentTime = 0;
     state.audios.hit.play();
@@ -143,6 +155,7 @@ function playMissSound() {
 }
 
 function playGameOverSound() {
+    stopBackgroundMusic();
     state.audios.gameover.play();
 }
 
@@ -153,6 +166,7 @@ function startGame() {
     initLeftTimer();
     hideRetryButton();
     spawn();
+    playBackgroundMusic();
 }
 
 startGame();
