@@ -1,6 +1,4 @@
 body {
-    width: 100vw;
-    height: 100vw;
     background-image: url('../images/grass.png');
     background-repeat: repeat;
     background-size: 4rem;
@@ -19,7 +17,8 @@ header {
     padding: 15px 10px 5px 10px;
     border-bottom: 5px solid #292929;
     border-radius: 0 0 20px 20px;
-    max-width: 550px;
+    max-width: 500px;
+    width: 100%;
 }
 
 h1 {
@@ -32,7 +31,7 @@ p {
 }
 
 h1, p {
-    font-size: 20px;
+    font-size: 0.9rem;
     
 }
 
@@ -57,6 +56,7 @@ section {
     height: 80%;
     background-image: url('../images/bad-animals/snake.png');
     background-size: cover;
+    cursor: pointer;
 }
 
 .retry-button {
@@ -68,6 +68,7 @@ section {
     background-color: #123f00;
     color: #FFF;
     border: none;
+    cursor: pointer;
 }
 
 footer {
@@ -84,13 +85,12 @@ footer {
 
 h2 {
     color: #62b800;
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px 0;
 }
 
 .dev-name {
     color: #ffd700;
-    font-size: 16px;
     padding: 10px 0;
     text-decoration: none;
 }
