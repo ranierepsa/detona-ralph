@@ -9,7 +9,8 @@ state = {
         timeLeft: 60,
         score: 0,
         respawnRate: 2000,
-        lives: 3
+        lives: 3,
+        isBackgroundMusicPlaying: false
     },
     startValues: {
         timeLeft: 60,
@@ -21,6 +22,7 @@ state = {
         timeLeft: null
     },
     audios: {
+        background: new Audio('./src/audios/background.wav'),
         gameover: new Audio('./src/audios/gameover.wav'),
         hit: new Audio('./src/audios/hit.wav'),
         miss: new Audio('./src/audios/miss.wav')
@@ -130,6 +132,11 @@ function restoreGameValues() {
     updateTimeLeft(state.startValues.timeLeft);
     updateScore(state.startValues.score);
     updateLives(state.startValues.lives);
+    state.values.isBackgroundMusicPlaying = false;
+}
+
+function stopBackgroundMusic() {
+    state.audios.background.pause();
 }
 
 function playHitSound() {
@@ -143,16 +150,42 @@ function playMissSound() {
 }
 
 function playGameOverSound() {
+    stopBackgroundMusic();
     state.audios.gameover.play();
 }
 
+function playBackgroundMusic() {
+    if (!state.values.isBackgroundMusicPlaying) {
+        state.audios.background.loop = true;
+        state.audios.background.volume = 0.5;
+        state.audios.background.currentTime = 0;
+        state.audios.background.play();
+        if (!state.audios.background.paused) {
+            state.values.isBackgroundMusicPlaying = true;
+        }
+    }
+}
+
+function pauseGameOverSound() {
+    if (!state.audios.gameover.paused) {
+        state.audios.gameover.pause();
+        state.audios.gameover.currentTime = 0;
+    }
+}
+
+function playBackgroundMusicWhenHoverBodyElement() {
+    document.getElementsByTagName('main')[0].addEventListener('mouseover', playBackgroundMusic);
+}
+
 function startGame() {
-    restoreGameValues()
+    restoreGameValues();
     addClickEventToAllSquares();
     initSpawnTimer();
     initLeftTimer();
     hideRetryButton();
     spawn();
+    pauseGameOverSound();
+    playBackgroundMusicWhenHoverBodyElement();
 }
 
 startGame();
